@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veux-tu être ma Valentine ?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg,  #000000 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #855600;
+        }
+        
+        .heart-decoration {
+            position: absolute;
+            color: #ff6b93;
+            opacity: 0.1;
+            font-size: 80px;
+            z-index: 0;
+        }
+        
+        .heart-1 { top: 10px; left: 20px; }
+        .heart-2 { top: 30px; right: 30px; }
+        .heart-3 { bottom: 40px; left: 40px; }
+        .heart-4 { bottom: 20px; right: 20px; }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .site-footer {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 14px;
+            color: #ffffff;
+            opacity: 0.9;
+            pointer-events: none; /* n'empêche pas les clics sur la page */
+        }
+        
+        h1 {
+            color: #d68d05;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px rgba(255, 107, 147, 0.2);
+        }
+        
+        .message {
+            font-size: 1.3rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+        
+        .question {
+            font-size: 1.8rem;
+            color: #ff3366;
+            margin-bottom: 40px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            min-width: 160px;
+        }
+        
+        .btn-yes {
+            background-color: #610088;
+            color: white;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .btn-yes:hover {
+            background-color: #3e8e41;
+            transform: translateY(-5px);
+        }
+        
+        .btn-yes:active {
+            transform: translateY(2px);
+        }
+        
+        .btn-no {
+            background-color: #ff4444;
+            color: white;
+            position: relative;
+        }
+        
+        .btn-no:hover {
+            background-color: #cc0000;
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff6b93;
+            font-size: 24px;
+            opacity: 0;
+        }
+        
+        .yes-page {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 8px solid #ff6b93;
+        }
+        
+        .yes-page h2 {
+            color: #ff4d7e;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .video-container {
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        video {
+            width: 100%;
+            max-height: 400px;
+            border-radius: 15px;
+        }
+        
+        .video-placeholder {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+        }
+        
+        .video-placeholder i {
+            font-size: 100px;
+            color: #ff4d7e;
+        }
+        
+        .celebrate-text {
+            font-size: 1.5rem;
+            color: #555;
+            margin-top: 20px;
+        }
+        
+        .counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4d7e;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .question {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1.3rem;
+                min-width: 140px;
+            }
+            
+            .buttons-container {
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .message {
+                font-size: 1.1rem;
+            }
+            
+            .question {
+                font-size: 1.3rem;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="valentine-card">
+            <div class="heart-decoration heart-1"><i class="fas fa-heart"></i></div>
+            <div class="heart-decoration heart-2"><i class="fas fa-heart"></i></div>
+            <div class="heart-decoration heart-3"><i class="fas fa-heart"></i></div>
+            <div class="heart-decoration heart-4"><i class="fas fa-heart"></i></div>
+            
+            <div class="content">
+                <h1> Saint-Valentin💜 💖</h1>
+                
+                <div class="message">
+                    <p>Chaque moment avec toi est spécial, mais aujourd'hui est encore plus spécial.</p>
+                </div>
+                
+                <div class="question">Veux-tu être ma Valentine ?</div>
+                
+                <div class="buttons-container">
+                    <button class="btn btn-yes" id="yes-btn">OUI !</button>
+                    <button class="btn btn-no" id="no-btn">Non</button>
+                </div>
+                
+                <div class="counter" id="counter">0</div>
+            </div>
+            
+            <div class="floating-hearts" id="floating-hearts"></div>
+        </div>
+        
+        <div class="yes-page" id="yes-page">
+            <h2>Tu as dit OUI ! 🎉</h2>
+            
+            <div class="video-container">
+              
+                <!-- Dans un cas réel, vous utiliseriez une balise video avec votre vidéo -->
+                 <video controls autoplay loop>
+                    <source src="imp/a4bb2192519a2dd159e5634e60c26464_001~2.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
+            </div>
+            
+            <p class="celebrate-text">Merci d'avoir accepté d'être ma Valentine ! ❤️💜<br>Je suis tellement heureux !</p>
+            
+            <button class="btn btn-yes" id="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+    </div>
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments DOM
+            const valentineCard = document.getElementById('valentine-card');
+            const yesBtn = document.getElementById('yes-btn');
+            const noBtn = document.getElementById('no-btn');
+            const yesPage = document.getElementById('yes-page');
+            const backBtn = document.getElementById('back-btn');
+            const floatingHearts = document.getElementById('floating-hearts');
+            const counter = document.getElementById('counter');
+            
+            let noClicks = 0;
+            let yesSize = 1;
+            
+            // Fonction pour créer des cœurs flottants
+            function createFloatingHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = '100%';
+                floatingHearts.appendChild(heart);
+                
+                // Animation du cœur
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 0.5;
+                
+                heart.style.transition = `all ${duration}s ease-in ${delay}s`;
+                heart.style.opacity = '0.8';
+                heart.style.transform = `translateY(-${Math.random() * 300 + 100}px) translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`;
+                
+                // Supprimer le cœur après l'animation
+                setTimeout(() => {
+                    heart.remove();
+                }, (duration + delay) * 1000);
+            }
+            
+            // Quand on passe la souris sur le bouton "Non"
+            noBtn.addEventListener('mouseover', function() {
+                // Déplacer aléatoirement le bouton "Non"
+                const cardWidth = valentineCard.clientWidth;
+                const cardHeight = valentineCard.clientHeight;
+                const btnWidth = noBtn.clientWidth;
+                const btnHeight = noBtn.clientHeight;
+                
+                const maxX = cardWidth - btnWidth - 40;
+                const maxY = cardHeight - btnHeight - 40;
+                
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+                
+                // Augmenter la taille du bouton "Oui"
+                yesSize += 0.1;
+                yesBtn.style.transform = `scale(${yesSize})`;
+                
+                // Créer des cœurs flottants
+                createFloatingHeart();
+                createFloatingHeart();
+                
+                // Augmenter le compteur
+                noClicks++;
+                counter.textContent = noClicks;
+                counter.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    counter.style.transform = 'scale(1)';
+                }, 300);
+            });
+            
+            // Quand on clique sur "Oui"
+            yesBtn.addEventListener('click', function() {
+                // Animation de transition
+                valentineCard.style.opacity = '0';
+                valentineCard.style.transform = 'scale(0.8)';
+                
+                setTimeout(() => {
+                    valentineCard.style.display = 'none';
+                    yesPage.style.display = 'block';
+                    
+                    // Animation d'entrée
+                    setTimeout(() => {
+                        yesPage.style.opacity = '1';
+                        yesPage.style.transform = 'scale(1)';
+                    }, 50);
+                    
+                    // Créer beaucoup de cœurs pour célébrer
+                    for (let i = 0; i < 20; i++) {
+                        setTimeout(() => {
+                            createFloatingHeart();
+                        }, i * 100);
+                    }
+                }, 500);
+            });
+            
+            // Quand on clique sur "Retour"
+            backBtn.addEventListener('click', function() {
+                yesPage.style.display = 'none';
+                valentineCard.style.display = 'block';
+                
+                setTimeout(() => {
+                    valentineCard.style.opacity = '1';
+                    valentineCard.style.transform = 'scale(1)';
+                }, 50);
+            });
+            
+            // Créer quelques cœurs flottants au chargement
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 500);
+            }
+            
+            // Animation de bienvenue
+            setTimeout(() => {
+                valentineCard.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    valentineCard.style.transform = 'scale(1)';
+                }, 300);
+            }, 500);
+        });
+    </script>
+    <footer class="site-footer">Développé par Kénydji</footer>
+</body>
+</html>
